@@ -7,7 +7,7 @@ class DemoApplication() : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        GamiBot.getInstance().init("5cedbbbb6801bb00173e5dfb").setDebug(true)
+        GamiBot.getInstance().init("5dc9335e5d2ed200121fc720").setDebug(true)
     }
 
 }

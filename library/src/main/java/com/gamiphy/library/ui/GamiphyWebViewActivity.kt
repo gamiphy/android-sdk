@@ -59,7 +59,7 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
     }
 
     override fun refresh() {
-        initWebView("https://" + gamiphyData.botId + ".test.bot.gamiphy.co/")
+        initWebView("https://" + gamiphyData.botId + GamiphyConstants.BOT_API)
     }
 
     override fun markTaskDone(eventName: String) {

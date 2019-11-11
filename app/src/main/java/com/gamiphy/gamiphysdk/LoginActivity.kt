@@ -18,7 +18,7 @@ class LoginActivity : AppCompatActivity() {
                 "riyadyhia@gmail.com", "Riyad Yahya",
                 HashUtil.createHmacKey(
                     "riyadyhia@gmail.com|Riyad Yahya",
-                    "c7e692e1d371d090a3ffcdda4e8ee29be9baef18a6f39049f393ca742c8e46ad"
+                    "e71f524cee7995766626bd40350d883d14ded66dc095a3b89fb71b89faa751ce"
                 )
             )
         )
