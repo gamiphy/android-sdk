@@ -19,8 +19,7 @@ gamiphy is available through [JitPack](https://jitpack.io/#gamiphy/android-sdk).
 it, simply add the dependency for the Gamiphy SDK in your module (app-level) Gradle file (usually app/build.gradle):
 
 ```gradle
-       // Todo : change this to gamiphy repo
-       implementation 'com.github.khaled-qasem:GamiphySDK:0.0.1'
+       implementation 'com.github.gamiphy:android-sdk:1.0.1'
 ```
 
 and make sure you have jitpack in your root-level (project-level) Gradle file (build.gradle), 
