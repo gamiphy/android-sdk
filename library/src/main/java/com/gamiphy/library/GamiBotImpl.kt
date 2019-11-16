@@ -4,9 +4,14 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.RestrictTo
 import com.gamiphy.library.models.User
+import com.gamiphy.library.network.RetrofitClient
+import com.gamiphy.library.network.models.TrackEventRequest
+import com.gamiphy.library.network.models.TrackEventResponse
 import com.gamiphy.library.ui.GamiphyWebViewActivity
-import com.gamiphy.library.utils.GamiphyConstants
 import com.gamiphy.library.utils.GamiphyData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 class GamiBotImpl : GamiBot {
@@ -45,6 +50,28 @@ class GamiBotImpl : GamiBot {
             it.markTaskDone(eventName)
         }
     }
+
+    override fun markTaskDoneSdk(eventName: String, quantity: Int?) {
+        val call: Call<TrackEventResponse> = RetrofitClient.gamiphyApiServices
+            .sendTrack(
+                GamiphyData.getInstance().botId,
+                TrackEventRequest(eventName, GamiphyData.getInstance().user.email, null)
+            )
+        call.enqueue(object : Callback<TrackEventResponse> {
+            override fun onFailure(call: Call<TrackEventResponse>, t: Throwable) {
+                Log.e(GamiBotImpl::class.java.name, t.message, t)
+            }
+
+            override fun onResponse(
+                call: Call<TrackEventResponse>,
+                response: Response<TrackEventResponse>
+            ) {
+                Log.d(GamiBotImpl::class.java.name, "success")
+            }
+
+        })
+    }
+
 
     override fun login(user: User) {
         gamiphyData.user = user

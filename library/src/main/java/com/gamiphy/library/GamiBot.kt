@@ -9,13 +9,14 @@ interface GamiBot {
     fun setBotId(botId: String): GamiBot
     fun setDebug(debug: Boolean)
 
-    fun open(context: Context, user:User? = null)
+    fun open(context: Context, user: User? = null)
     fun close()
 
     fun login(user: User)
     fun logout()
 
     fun markTaskDone(eventName: String, quantity: Int? = null)
+    fun markTaskDoneSdk(eventName: String, quantity: Int? = null)
     fun markRedeemDone(rewardId: String)
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)

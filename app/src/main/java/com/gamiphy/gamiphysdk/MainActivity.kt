@@ -42,7 +42,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         button.setOnClickListener {
-            GamiBot.getInstance().markTaskDone("purchaseCourseEvent")
+            GamiBot.getInstance()
+                .markTaskDoneSdk("purchaseCourseEvent")
 //            GamiBot.getInstance().open(this)
         }
     }
