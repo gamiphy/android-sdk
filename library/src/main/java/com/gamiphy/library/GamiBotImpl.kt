@@ -51,11 +51,11 @@ class GamiBotImpl : GamiBot {
         }
     }
 
-    override fun markTaskDoneSdk(eventName: String, quantity: Int?) {
+    override fun markTaskDoneSdk(eventName: String, quantity: Int?, data: Any?) {
         val call: Call<TrackEventResponse> = RetrofitClient.gamiphyApiServices
             .sendTrack(
                 GamiphyData.getInstance().botId,
-                TrackEventRequest(eventName, GamiphyData.getInstance().user.email, null)
+                TrackEventRequest(eventName, GamiphyData.getInstance().user.email, data)
             )
         call.enqueue(object : Callback<TrackEventResponse> {
             override fun onFailure(call: Call<TrackEventResponse>, t: Throwable) {

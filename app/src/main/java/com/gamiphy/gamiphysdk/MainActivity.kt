@@ -42,9 +42,15 @@ class MainActivity : AppCompatActivity() {
         })
 
         button.setOnClickListener {
+            // this is how to pass data object
             GamiBot.getInstance()
-                .markTaskDoneSdk("purchaseCourseEvent")
+                .markTaskDoneSdk("purchaseCourseEvent", data = Client(2, "testClient"))
+            // if there is no data
+//            GamiBot.getInstance()
+//                .markTaskDoneSdk("purchaseCourseEvent")
 //            GamiBot.getInstance().open(this)
+
+
         }
     }
 }

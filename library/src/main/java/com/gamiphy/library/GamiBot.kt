@@ -16,7 +16,7 @@ interface GamiBot {
     fun logout()
 
     fun markTaskDone(eventName: String, quantity: Int? = null)
-    fun markTaskDoneSdk(eventName: String, quantity: Int? = null)
+    fun markTaskDoneSdk(eventName: String, quantity: Int? = null, data: Any? = null)
     fun markRedeemDone(rewardId: String)
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
