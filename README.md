@@ -145,4 +145,18 @@ This method take the event name label and mark it as done.
 ```kotlin
 GamiBot.getInstance().markTaskDone(actionName)
 ```
+and if you need to send the custom event action with data object, you need to create new class according data object -class fields names should have same data fields names-.
+e.g: Assume we need to send data object with client details
+```
+data:{"id:2","name":"testClient"}
+```
+we will need to create class with same fields names like this: 
+```
+data class Client(val id: Int, val name: String)
+```
+then you can send it in markTaskDoneSdk
+```kotlin
+GamiBot.getInstance().markTaskDoneSdk("purchaseCourseEvent",Client(2, "testClient"))
+```
+
 
