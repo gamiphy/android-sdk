@@ -13,15 +13,17 @@ import android.webkit.*
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.gamiphy.library.*
+import com.gamiphy.library.GamiBot
+import com.gamiphy.library.GamiphyWebViewActions
+import com.gamiphy.library.R
 import com.gamiphy.library.network.models.responses.Action
 import com.gamiphy.library.network.models.responses.ActionData
+import com.gamiphy.library.network.models.responses.redeem.Redeem
+import com.gamiphy.library.utils.GamiphyConstants
 import com.gamiphy.library.utils.GamiphyData
 import com.gamiphy.library.utils.JavaScriptScripts
 import com.gamiphy.library.utils.JavaScriptScripts.JAVASCRIPT_OBJ
 import com.google.gson.Gson
-import com.gamiphy.library.network.models.responses.redeem.Redeem
-import com.gamiphy.library.utils.GamiphyConstants
 import com.google.gson.reflect.TypeToken
 
 
@@ -51,6 +53,7 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
     override fun logout() {
         gamiphyData.user.name = ""
         gamiphyData.user.email = ""
+        gamiphyData.token = null
         postTokenMessage()
     }
 
@@ -145,20 +148,26 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
         }
     }
 
+    /**
+     * init web view with token if exist or user.email
+     * else open unSigned web view
+     */
     private fun postTokenMessage() {
-        if (gamiphyData.user.email.isEmpty()) {
-            executeJavaScript(JavaScriptScripts.initBot())
-        } else {
+        val token = gamiphyData.token
+        if (!token.isNullOrEmpty()) {
+            executeJavaScript(JavaScriptScripts.initBot(token))
+        } else if (gamiphyData.user.email.isNotEmpty()) {
             executeJavaScript(JavaScriptScripts.initBot(gamiphyData.user))
+        } else {
+            executeJavaScript(JavaScriptScripts.initBot())
         }
     }
 
     private fun executeJavaScript(script: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            webView.post {  webView.evaluateJavascript(script, null)}
+            webView.post { webView.evaluateJavascript(script, null) }
         } else {
-            webView.post {webView.loadUrl(script, null)  }
-
+            webView.post { webView.loadUrl(script, null) }
         }
     }
 
@@ -187,7 +196,10 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
                 val redeemType = object : TypeToken<Action<Redeem>>() {}.type
                 val redeem = Gson().fromJson<Action<Redeem>>(event, redeemType)
                 Log.d(GamiphyWebViewActivity::class.java.simpleName, redeem.data.reward._id)
-                Log.d(GamiphyWebViewActivity::class.java.simpleName, redeem.data.reward.options.value)
+                Log.d(
+                    GamiphyWebViewActivity::class.java.simpleName,
+                    redeem.data.reward.options.value
+                )
                 gamiBot.notifyRedeemTrigger(redeem.data.reward._id)
             }
         }
@@ -195,8 +207,9 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
 
     companion object {
         @JvmStatic
-        fun newIntent(context: Context) = Intent(context, GamiphyWebViewActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
+        fun newIntent(context: Context) =
+            Intent(context, GamiphyWebViewActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
     }
 }

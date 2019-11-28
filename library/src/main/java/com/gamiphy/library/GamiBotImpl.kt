@@ -3,8 +3,10 @@ package com.gamiphy.library
 import android.content.Context
 import android.util.Log
 import androidx.annotation.RestrictTo
+import androidx.core.content.edit
 import com.gamiphy.library.models.User
 import com.gamiphy.library.network.RetrofitClient
+import com.gamiphy.library.network.models.LoginResponse
 import com.gamiphy.library.network.models.TrackEventRequest
 import com.gamiphy.library.network.models.TrackEventResponse
 import com.gamiphy.library.ui.GamiphyWebViewActivity
@@ -31,6 +33,10 @@ class GamiBotImpl : GamiBot {
     }
 
     override fun open(context: Context, user: User?) {
+        gamiphyData.token = context.getSharedPreferences(
+            TOKEN_PREF,
+            Context.MODE_PRIVATE
+        ).getString(TOKEN_PREF_ID, null)
         context.startActivity(GamiphyWebViewActivity.newIntent(context))
     }
 
@@ -51,11 +57,11 @@ class GamiBotImpl : GamiBot {
         }
     }
 
-    override fun markTaskDoneSdk(eventName: String, quantity: Int?, data: Any?) {
+    override fun markTaskDoneSdk(eventName: String, email: String, quantity: Int?, data: Any?) {
         val call: Call<TrackEventResponse> = RetrofitClient.gamiphyApiServices
             .sendTrack(
                 GamiphyData.getInstance().botId,
-                TrackEventRequest(eventName, GamiphyData.getInstance().user.email, data)
+                TrackEventRequest(eventName, email, data)
             )
         call.enqueue(object : Callback<TrackEventResponse> {
             override fun onFailure(call: Call<TrackEventResponse>, t: Throwable) {
@@ -72,6 +78,34 @@ class GamiBotImpl : GamiBot {
         })
     }
 
+    override fun loginSDK(context: Context, user: User) {
+        val call: Call<LoginResponse> = RetrofitClient.gamiphyApiServices
+            .loginSDK(
+                GamiphyData.getInstance().botId,
+                user
+            )
+        call.enqueue(object : Callback<LoginResponse> {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e(GamiBotImpl::class.java.name, t.message, t)
+            }
+
+            override fun onResponse(
+                call: Call<LoginResponse>,
+                response: Response<LoginResponse>
+            ) {
+                val token = response.body()?.token
+                context.getSharedPreferences(
+                    TOKEN_PREF,
+                    Context.MODE_PRIVATE
+                ).edit {
+                    putString(TOKEN_PREF_ID, token)
+                }
+                Log.d(GamiBotImpl::class.java.name, "success")
+            }
+
+        })
+    }
+
 
     override fun login(user: User) {
         gamiphyData.user = user
@@ -80,7 +114,11 @@ class GamiBotImpl : GamiBot {
         }
     }
 
-    override fun logout() {
+    override fun logout(context: Context) {
+        context.getSharedPreferences(
+            TOKEN_PREF,
+            Context.MODE_PRIVATE
+        ).edit { clear() }
         gamiphyWebViewActionsList.forEach {
             it.logout()
         }
@@ -148,5 +186,10 @@ class GamiBotImpl : GamiBot {
         gamiphyOnRedeemTriggerListeners.forEach {
             it.onRedeemTrigger(rewardId)
         }
+    }
+
+    companion object {
+        private const val TOKEN_PREF = "TOKEN_PREF"
+        private const val TOKEN_PREF_ID = "TOKEN_PREF_ID"
     }
 }

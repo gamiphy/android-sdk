@@ -9,6 +9,7 @@ class GamiphyData private constructor() {
     var botId: String = ""
     var user: User = User("", "")
     var debug: Boolean = false
+    var token: String? = null
 
     companion object {
         private var instance: GamiphyData? = null

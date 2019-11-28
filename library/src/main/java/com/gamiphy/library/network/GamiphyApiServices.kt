@@ -1,5 +1,7 @@
 package com.gamiphy.library.network
 
+import com.gamiphy.library.models.User
+import com.gamiphy.library.network.models.LoginResponse
 import com.gamiphy.library.network.models.TrackEventRequest
 import com.gamiphy.library.network.models.TrackEventResponse
 import com.gamiphy.library.network.models.responses.bot.BotOptions
@@ -19,4 +21,7 @@ interface GamiphyApiServices {
 
     @POST("bot-event/" + GamiphyConstants.API_V1 + "/bot/{botId}/track")
     fun sendTrack(@Path("botId") botId: String, @Body trackEventRequest: TrackEventRequest): Call<TrackEventResponse>
+
+    @POST("clients/" + GamiphyConstants.API_V1 + "/bot/{botId}/user")
+    fun loginSDK(@Path("botId") botId: String, @Body user: User): Call<LoginResponse>
 }

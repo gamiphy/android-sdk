@@ -13,10 +13,10 @@ interface GamiBot {
     fun close()
 
     fun login(user: User)
-    fun logout()
+    fun logout(context: Context)
 
     fun markTaskDone(eventName: String, quantity: Int? = null)
-    fun markTaskDoneSdk(eventName: String, quantity: Int? = null, data: Any? = null)
+    fun markTaskDoneSdk(eventName: String, email: String, quantity: Int? = null, data: Any? = null)
     fun markRedeemDone(rewardId: String)
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -34,6 +34,7 @@ interface GamiBot {
     fun notifyAuthTrigger(signUp: Boolean)
     fun notifyTaskTrigger(actionName: String)
     fun notifyRedeemTrigger(rewardId: String)
+    fun loginSDK(context: Context, user: User)
 
     companion object {
         private var instance: GamiBotImpl? = null

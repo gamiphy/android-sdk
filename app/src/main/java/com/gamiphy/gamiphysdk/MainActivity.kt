@@ -9,6 +9,8 @@ import com.gamiphy.library.GamiBot
 import com.gamiphy.library.OnAuthTrigger
 import com.gamiphy.library.OnRedeemTrigger
 import com.gamiphy.library.OnTaskTrigger
+import com.gamiphy.library.models.User
+import com.gamiphy.library.utils.HashUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +20,17 @@ class MainActivity : AppCompatActivity() {
 
         val button = findViewById<Button>(R.id.bot)
         val gamiBot = GamiBot.getInstance()
+
+        GamiBot.getInstance().loginSDK(
+            this,
+            User(
+                "riyadyhia@gmail.com", "Riyad Yahya",
+                HashUtil.createHmacKey(
+                    "riyadyhia@gmail.com|Riyad Yahya",
+                    "e71f524cee7995766626bd40350d883d14ded66dc095a3b89fb71b89faa751ce"
+                )
+            )
+        )
 
         GamiBot.getInstance().registerGamiphyOnAuthTrigger(object : OnAuthTrigger {
             override fun onAuthTrigger(isSignUp: Boolean) {
@@ -44,13 +57,15 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener {
             // this is how to pass data object
             GamiBot.getInstance()
-                .markTaskDoneSdk("purchaseCourseEvent", data = Client(2, "testClient"))
+                .markTaskDoneSdk(
+                    "purchaseCourseEvent",
+                    "riyadyhia@gmail.com",
+                    data = Client(2, "testClient")
+                )
             // if there is no data
 //            GamiBot.getInstance()
-//                .markTaskDoneSdk("purchaseCourseEvent")
-//            GamiBot.getInstance().open(this)
-
-
+//                .markTaskDoneSdk("purchaseCourseEvent","riyadyhia@gmail.com",)
+            GamiBot.getInstance().open(this)
         }
     }
 }

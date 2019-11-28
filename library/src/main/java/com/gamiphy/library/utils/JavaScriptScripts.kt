@@ -10,6 +10,9 @@ object JavaScriptScripts {
         "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: $userJson}},'*')"
     } ?: let { "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize',data:{logout: true}},'*')" }
 
+    fun initBot(token: String) =
+        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: $token}},'*')"
+
     fun addGamiphyEvent() =
         "javascript: " +
                 "window.parent.addEventListener('message', function (event) {" +
