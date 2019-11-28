@@ -86,7 +86,6 @@ OnAuthTrigger method called when click signUp/login in the bot. isSignUp true fo
 In login activity, after the user logged in, set user name and email and start gamiphy view
 ```kotlin
  GamiphySDK.getInstance().login(User(email,name,hash))
-        GamiphySDK.getInstance()..open(this)
 ```
 
 Gamiphy SDK Listeners:
