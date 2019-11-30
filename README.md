@@ -129,7 +129,7 @@ rewardId is the reward object want to redeem.
 As Gamibot is a loyality program that should be able to give points for the users, you can simply register your users for our SDK by calling this method. 
 
 ```kotlin
-   GamiBot.getInstance().login(User(email,name,hash))
+   GamiBot.getInstance().loginSDK(context, User(email,name,hash))
 ```
 
 you need to call this method in both cases the login / signup if you do instant login of your users after they login/signup. 
