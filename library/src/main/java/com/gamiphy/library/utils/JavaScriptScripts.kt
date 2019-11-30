@@ -11,7 +11,7 @@ object JavaScriptScripts {
     } ?: let { "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize',data:{logout: true}},'*')" }
 
     fun initBot(token: String) =
-        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: $token}},'*')"
+        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: '$token'}},'*')"
 
     fun addGamiphyEvent() =
         "javascript: " +
