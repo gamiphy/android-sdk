@@ -144,7 +144,12 @@ This method take the event name label and mark it as done.
 ```kotlin
 GamiBot.getInstance().markTaskDone(actionName)
 ```
-and if you need to send the custom event action with data object, you need to create new class according data object -class fields names should have same data fields names-.
+note: you can use this methode with bot only, bot should be on when you use it.
+and if you need to send the custom event action in general -ignoring bot status - with data object, you need to create new class according data object -class fields names should have same data fields names-.
+note: data object is optinoal and depends on your case.
+```kotlin
+GamiBot.getInstance().markTaskDoneSdk("purchaseCourseEvent",email)
+```
 e.g: Assume we need to send data object with client details
 ```
 data:{"id:2","name":"testClient"}
@@ -155,7 +160,7 @@ data class Client(val id: Int, val name: String)
 ```
 then you can send it in markTaskDoneSdk
 ```kotlin
-GamiBot.getInstance().markTaskDoneSdk("purchaseCourseEvent",Client(2, "testClient"))
+GamiBot.getInstance().markTaskDoneSdk("purchaseCourseEvent",email,Client(2, "testClient"))
 ```
 
 
