@@ -19,9 +19,9 @@ interface GamiphyApiServices {
     @GET("bots/" + GamiphyConstants.API_V1 + "{botId}/options")
     fun getBotOptions(@Path("botId") botId: String): Call<BotOptions>
 
-    @POST("bot-event/" + GamiphyConstants.API_V1 + "/bot/{botId}/track")
+    @POST("bot-event/" + GamiphyConstants.API_V1 + "bot/{botId}/track")
     fun sendTrack(@Path("botId") botId: String, @Body trackEventRequest: TrackEventRequest): Call<TrackEventResponse>
 
-    @POST("clients/" + GamiphyConstants.API_V1 + "/bot/{botId}/user")
+    @POST("clients/" + GamiphyConstants.API_V1 + "bot/{botId}/user")
     fun loginSDK(@Path("botId") botId: String, @Body user: User): Call<LoginResponse>
 }
