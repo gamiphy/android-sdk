@@ -195,11 +195,6 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
             } else if (action.type == "redeemTrigger") {
                 val redeemType = object : TypeToken<Action<Redeem>>() {}.type
                 val redeem = Gson().fromJson<Action<Redeem>>(event, redeemType)
-                Log.d(GamiphyWebViewActivity::class.java.simpleName, redeem.data.reward._id)
-                Log.d(
-                    GamiphyWebViewActivity::class.java.simpleName,
-                    redeem.data.reward.options.value
-                )
                 gamiBot.notifyRedeemTrigger(redeem.data.reward._id)
             }
         }
