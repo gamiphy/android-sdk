@@ -195,7 +195,7 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
             } else if (action.type == "redeemTrigger") {
                 val redeemType = object : TypeToken<Action<Redeem>>() {}.type
                 val redeem = Gson().fromJson<Action<Redeem>>(event, redeemType)
-                gamiBot.notifyRedeemTrigger(redeem.data.reward._id)
+                gamiBot.notifyRedeemTrigger(redeem.data)
             }
         }
     }

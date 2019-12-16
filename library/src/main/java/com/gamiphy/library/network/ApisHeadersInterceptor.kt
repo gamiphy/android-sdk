@@ -16,10 +16,7 @@ class ApisHeadersInterceptor : Interceptor {
         request = request.newBuilder()
             .addHeader("Content-Type", "application/json")
             .addHeader("EventData-Requested-With", "XMLHttpRequest")
-            .addHeader("Authorization", token)
             .build()
         return chain.proceed(request)
     }
 }
-
-const val token = ""

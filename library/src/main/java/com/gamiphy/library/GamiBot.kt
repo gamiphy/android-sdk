@@ -3,9 +3,11 @@ package com.gamiphy.library
 import android.content.Context
 import androidx.annotation.RestrictTo
 import com.gamiphy.library.models.User
+import com.gamiphy.library.network.models.responses.redeem.Redeem
+import com.gamiphy.library.network.models.responses.redeem.Reward
 
 interface GamiBot {
-    fun init(botId: String): GamiBot
+    fun init(context: Context, botId: String): GamiBot
     fun setBotId(botId: String): GamiBot
     fun setDebug(debug: Boolean)
 
@@ -17,7 +19,7 @@ interface GamiBot {
 
     fun markTaskDone(eventName: String, quantity: Int? = null)
     fun markTaskDoneSdk(eventName: String, email: String, quantity: Int? = null, data: Any? = null)
-    fun markRedeemDone(rewardId: String)
+    fun markRedeemDone(packageId: String, pointsToRedeem: Int)
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     fun registerGamiphyWebViewActions(gamiphyWebViewActions: GamiphyWebViewActions): GamiBotImpl
@@ -33,7 +35,7 @@ interface GamiBot {
     fun unRegisterGamiphyOnRedeemTrigger(onRedeemTrigger: OnRedeemTrigger): GamiBotImpl
     fun notifyAuthTrigger(signUp: Boolean)
     fun notifyTaskTrigger(actionName: String)
-    fun notifyRedeemTrigger(rewardId: String)
+    fun notifyRedeemTrigger(redeem: Redeem?)
     fun loginSDK(context: Context, user: User)
 
     companion object {

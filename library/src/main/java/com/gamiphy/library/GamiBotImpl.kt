@@ -9,6 +9,10 @@ import com.gamiphy.library.network.RetrofitClient
 import com.gamiphy.library.network.models.LoginResponse
 import com.gamiphy.library.network.models.TrackEventRequest
 import com.gamiphy.library.network.models.TrackEventResponse
+import com.gamiphy.library.network.models.responses.RedeemRequest
+import com.gamiphy.library.network.models.responses.RedeemResponse
+import com.gamiphy.library.network.models.responses.redeem.Redeem
+import com.gamiphy.library.network.models.responses.redeem.Reward
 import com.gamiphy.library.ui.GamiphyWebViewActivity
 import com.gamiphy.library.utils.GamiphyData
 import retrofit2.Call
@@ -23,8 +27,12 @@ class GamiBotImpl : GamiBot {
     private val gamiphyOnTaskTriggerListeners = mutableListOf<OnTaskTrigger>()
     private val gamiphyOnRedeemTriggerListeners = mutableListOf<OnRedeemTrigger>()
 
-    override fun init(botId: String): GamiBot {
+    override fun init(context: Context, botId: String): GamiBot {
         gamiphyData.botId = botId
+        gamiphyData.token = context.getSharedPreferences(
+            TOKEN_PREF,
+            Context.MODE_PRIVATE
+        ).getString(TOKEN_PREF_ID, null)
         return this
     }
 
@@ -45,9 +53,28 @@ class GamiBotImpl : GamiBot {
         return this
     }
 
-    override fun markRedeemDone(rewardId: String) {
-        gamiphyWebViewActionsList.forEach {
-            it.markRedeemDone(rewardId)
+    override fun markRedeemDone(packageId: String, pointsToRedeem: Int) {
+        val token = GamiphyData.getInstance().token
+        token?.let {
+            val call: Call<RedeemResponse> = RetrofitClient.gamiphyApiServices
+                .redeem(
+                    "JWT $token",
+                    GamiphyData.getInstance().botId,
+                    packageId,
+                    RedeemRequest(pointsToRedeem)
+                )
+            call.enqueue(object : Callback<RedeemResponse> {
+                override fun onFailure(call: Call<RedeemResponse>, t: Throwable) {
+                    Log.e(GamiBotImpl::class.java.name, t.message, t)
+                }
+
+                override fun onResponse(
+                    call: Call<RedeemResponse>,
+                    response: Response<RedeemResponse>
+                ) {
+                    Log.d(GamiBotImpl::class.java.name, "success")
+                }
+            })
         }
     }
 
@@ -182,9 +209,9 @@ class GamiBotImpl : GamiBot {
         }
     }
 
-    override fun notifyRedeemTrigger(rewardId: String) {
+    override fun notifyRedeemTrigger(redeem: Redeem?) {
         gamiphyOnRedeemTriggerListeners.forEach {
-            it.onRedeemTrigger(rewardId)
+            it.onRedeemTrigger(redeem)
         }
     }
 

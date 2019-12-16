@@ -10,6 +10,8 @@ import com.gamiphy.library.OnAuthTrigger
 import com.gamiphy.library.OnRedeemTrigger
 import com.gamiphy.library.OnTaskTrigger
 import com.gamiphy.library.models.User
+import com.gamiphy.library.network.models.responses.redeem.Redeem
+import com.gamiphy.library.network.models.responses.redeem.Reward
 import com.gamiphy.library.utils.HashUtil
 
 class MainActivity : AppCompatActivity() {
@@ -48,9 +50,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         gamiBot.registerGamiphyOnRedeemTrigger(object : OnRedeemTrigger {
-            override fun onRedeemTrigger(rewardId: String) {
-                Log.d(MainActivity::class.java.simpleName, "here is reward Id  $rewardId")
-                GamiBot.getInstance().markRedeemDone(rewardId)
+            override fun onRedeemTrigger(redeem: Redeem?) {
+                Log.d(MainActivity::class.java.simpleName, "here is package Id  ${redeem?.packageId} ----- ${redeem?.pointsToRedeem}")
+                GamiBot.getInstance()
+                    .markRedeemDone(redeem?.packageId!!, redeem.pointsToRedeem!!)
             }
         })
 

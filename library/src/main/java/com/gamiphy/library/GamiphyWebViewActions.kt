@@ -14,6 +14,7 @@ interface GamiphyWebViewActions {
     fun refresh()
 
     fun markTaskDone(eventName: String)
+
     fun markRedeemDone(rewardId: String)
 
 }

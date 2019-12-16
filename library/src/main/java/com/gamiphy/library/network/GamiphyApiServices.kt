@@ -4,13 +4,13 @@ import com.gamiphy.library.models.User
 import com.gamiphy.library.network.models.LoginResponse
 import com.gamiphy.library.network.models.TrackEventRequest
 import com.gamiphy.library.network.models.TrackEventResponse
+import com.gamiphy.library.network.models.responses.RedeemRequest
+import com.gamiphy.library.network.models.responses.RedeemResponse
 import com.gamiphy.library.network.models.responses.bot.BotOptions
 import com.gamiphy.library.utils.GamiphyConstants
+import com.gamiphy.library.utils.GamiphyData
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 /**
  * Api services for the Gamiphy bot.
@@ -24,4 +24,7 @@ interface GamiphyApiServices {
 
     @POST("clients/" + GamiphyConstants.API_V1 + "bot/{botId}/user")
     fun loginSDK(@Path("botId") botId: String, @Body user: User): Call<LoginResponse>
+
+    @POST("bots/" + GamiphyConstants.API_V1 + "{botId}/package/{packageId}/redeem")
+    fun redeem(@Header("Authorization") tokenHeader: String, @Path("botId") botId: String, @Path("packageId") packageId: String, @Body redeemRequest: RedeemRequest): Call<RedeemResponse>
 }
