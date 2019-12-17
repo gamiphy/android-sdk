@@ -8,7 +8,7 @@ import com.gamiphy.library.network.models.responses.redeem.Reward
 import org.intellij.lang.annotations.Language
 
 interface GamiBot {
-    fun init(context: Context, botId: String, language: String?): GamiBot
+    fun init(context: Context, botId: String, language: String? = "en"): GamiBot
     fun setBotId(botId: String): GamiBot
     fun setDebug(debug: Boolean)
 

@@ -4,5 +4,6 @@ data class User(
     var email: String,
     var name: String,
     var hash: String = "",
-    var avatar: String = ""
+    var avatar: String = "",
+    val referral: Referral? = null
 )

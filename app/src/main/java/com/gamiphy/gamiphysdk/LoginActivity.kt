@@ -22,7 +22,6 @@ class LoginActivity : AppCompatActivity() {
                 )
             )
         )
-        GamiBot.getInstance().open(this, null, "es")
         finish()
     }
 }
