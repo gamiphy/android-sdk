@@ -10,6 +10,7 @@ class GamiphyData private constructor() {
     var user: User = User("", "")
     var debug: Boolean = false
     var token: String? = null
+    var language: String? = "en"
 
     companion object {
         private var instance: GamiphyData? = null

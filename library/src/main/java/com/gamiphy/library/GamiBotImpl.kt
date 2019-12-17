@@ -27,12 +27,13 @@ class GamiBotImpl : GamiBot {
     private val gamiphyOnTaskTriggerListeners = mutableListOf<OnTaskTrigger>()
     private val gamiphyOnRedeemTriggerListeners = mutableListOf<OnRedeemTrigger>()
 
-    override fun init(context: Context, botId: String): GamiBot {
+    override fun init(context: Context, botId: String, language: String?): GamiBot {
         gamiphyData.botId = botId
         gamiphyData.token = context.getSharedPreferences(
             TOKEN_PREF,
             Context.MODE_PRIVATE
         ).getString(TOKEN_PREF_ID, null)
+        gamiphyData.language = language
         return this
     }
 
@@ -40,11 +41,12 @@ class GamiBotImpl : GamiBot {
         gamiphyData.debug = debug
     }
 
-    override fun open(context: Context, user: User?) {
+    override fun open(context: Context, user: User?, language: String?) {
         gamiphyData.token = context.getSharedPreferences(
             TOKEN_PREF,
             Context.MODE_PRIVATE
         ).getString(TOKEN_PREF_ID, null)
+        gamiphyData.language = language
         context.startActivity(GamiphyWebViewActivity.newIntent(context))
     }
 

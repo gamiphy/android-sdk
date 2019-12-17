@@ -154,10 +154,11 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
      */
     private fun postTokenMessage() {
         val token = gamiphyData.token
+        val language = gamiphyData.language
         if (!token.isNullOrEmpty()) {
-            executeJavaScript(JavaScriptScripts.initBot(token))
+            executeJavaScript(JavaScriptScripts.initBot(token, language))
         } else if (gamiphyData.user.email.isNotEmpty()) {
-            executeJavaScript(JavaScriptScripts.initBot(gamiphyData.user))
+            executeJavaScript(JavaScriptScripts.initBot(gamiphyData.user, language))
         } else {
             executeJavaScript(JavaScriptScripts.initBot())
         }

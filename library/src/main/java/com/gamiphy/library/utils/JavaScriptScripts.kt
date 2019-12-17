@@ -5,13 +5,13 @@ import com.google.gson.Gson
 
 object JavaScriptScripts {
 
-    fun initBot(user: User? = null) = user?.let {
+    fun initBot(user: User? = null, language: String? = "en") = user?.let {
         val userJson = Gson().toJson(user).toString()
-        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: $userJson}},'*')"
-    } ?: let { "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize',data:{logout: true}},'*')" }
+        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: $userJson, language: '$language'}},'*')"
+    } ?: let { "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize',data:{logout: true, language: '$language'}},'*')" }
 
-    fun initBot(token: String) =
-        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: '$token'}},'*')"
+    fun initBot(token: String, language: String? = "en") =
+        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: '$token', language: '$language'}},'*')"
 
     fun addGamiphyEvent() =
         "javascript: " +
