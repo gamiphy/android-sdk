@@ -40,11 +40,11 @@ Gamiphy SDK needs to be initialized in Application class, you can do that by cal
 you can get after you signup for an account at Gamiphy. kinldy note the initilize method below. 
 
 ```kotlin
-      GamiphySDK.getInstance().init(botId)
+      GamiBot.getInstance().init(applicationContext, botId, language).setDebug(true)
 ```
 And you can set Debug mode.
 ```kotlin
-      GamiphySDK.getInstance().setDebug(true)
+      GamiBot.getInstance().init(applicationContext, botId, language).setDebug(true).setDebug(true)
 ```
 
 ## Showing the bot within your application
@@ -63,8 +63,9 @@ you just need to add the widget button to your xml layout
 - If you are interested on having your own widget/button that will be repsonsible to open the bot, or you want to open the bot after a certin action. you can do so by calling the following method: 
 
 ```Kotlin
-    GamiphySDK.getInstance().open(context)
+    GamiphySDK.getInstance().open(context,user,language)
 ```
+note: user and language are optional parameters in case we passed them in login
 
 ## Bot visitor flow 
 
@@ -114,12 +115,12 @@ GamiBot.getInstance().registerGamiphyOnAuthTrigger(object : OnAuthTrigger {
 ```
 
 - OnRedeemTrigger: this listener has onRedeemTrigger method, this method Called when redeem clicked in the bot. 
-rewardId is the reward object want to redeem.
+redeem is the redeem object want to redeem which contains packageId and pointsToRedeem
 ```kotlin
  gamiBot.registerGamiphyOnRedeemTrigger(object : OnRedeemTrigger {
-            override fun onRedeemTrigger(rewardId: String) {
-                Log.d(MainActivity::class.java.simpleName, "here is reward Id  $rewardId")
-                GamiBot.getInstance().markRedeemDone(rewardId)
+            override fun onRedeemTrigger(redeem: Redeem?) {
+                Log.d(MainActivity::class.java.simpleName, "here is redeem object  $redeem")
+                GamiBot.getInstance().markRedeemDone(redeem?.packageId!!, redeem.pointsToRedeem!!)
             }
         })
 ```
@@ -145,7 +146,8 @@ This method take the event name label and mark it as done.
 GamiBot.getInstance().markTaskDone(actionName)
 ```
 note: you can use this methode with bot only, bot should be on when you use it.
-and if you need to send the custom event action in general -ignoring bot status - with data object, you need to create new class according data object -class fields names should have same data fields names-.
+
+If you need to send the custom event action in general -ignoring bot status - with data object, you need to create new class according data object -class fields names should have same data fields names-.
 note: data object is optinoal and depends on your case.
 ```kotlin
 GamiBot.getInstance().markTaskDoneSdk("purchaseCourseEvent",email)
@@ -162,5 +164,14 @@ then you can send it in markTaskDoneSdk
 ```kotlin
 GamiBot.getInstance().markTaskDoneSdk("purchaseCourseEvent",email,Client(2, "testClient"))
 ```
+to mark redeem, we have markRedeemDone method with packageId and pointsToRedeem parameters, you will need it in onRedeemTrigger event:
+```kotlin
+GamiBot.getInstance().markRedeemDone(redeem?.packageId!!, redeem.pointsToRedeem!!)
+```
 
+## Referral
+We can do referral by adding referral object with it's code to user object and pass it in login:
 
+```kotlin
+   GamiBot.getInstance().loginSDK(context, User(email,name,hash),referral = Referral(code))
+```
