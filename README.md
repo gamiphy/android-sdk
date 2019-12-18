@@ -173,5 +173,5 @@ GamiBot.getInstance().markRedeemDone(redeem?.packageId!!, redeem.pointsToRedeem!
 We can do referral by adding referral object with it's code to user object and pass it in login:
 
 ```kotlin
-   GamiBot.getInstance().loginSDK(context, User(email,name,hash),referral = Referral(code))
+   GamiBot.getInstance().loginSDK(context, User(email,name,hash,referral = Referral(code)))
 ```
