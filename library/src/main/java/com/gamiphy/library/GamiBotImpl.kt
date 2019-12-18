@@ -86,7 +86,7 @@ class GamiBotImpl : GamiBot {
         }
     }
 
-    override fun markTaskDoneSdk(eventName: String, email: String, quantity: Int?, data: Any?) {
+    override fun markTaskDoneSdk(eventName: String, email: String, data: Any?) {
         val call: Call<TrackEventResponse> = RetrofitClient.gamiphyApiServices
             .sendTrack(
                 GamiphyData.getInstance().botId,
