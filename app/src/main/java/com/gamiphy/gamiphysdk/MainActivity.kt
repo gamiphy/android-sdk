@@ -1,5 +1,6 @@
 package com.gamiphy.gamiphysdk
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +12,8 @@ import com.gamiphy.library.OnRedeemTrigger
 import com.gamiphy.library.OnTaskTrigger
 import com.gamiphy.library.models.User
 import com.gamiphy.library.network.models.responses.redeem.Redeem
-import com.gamiphy.library.network.models.responses.redeem.Reward
 import com.gamiphy.library.utils.HashUtil
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,13 +50,16 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        gamiBot.registerGamiphyOnRedeemTrigger(object : OnRedeemTrigger {
-            override fun onRedeemTrigger(redeem: Redeem?) {
-                Log.d(MainActivity::class.java.simpleName, "here is package Id  ${redeem?.packageId} ----- ${redeem?.pointsToRedeem}")
-                GamiBot.getInstance()
-                    .markRedeemDone(redeem?.packageId!!, redeem.pointsToRedeem!!)
-            }
-        })
+//        gamiBot.registerGamiphyOnRedeemTrigger(object : OnRedeemTrigger {
+//            override fun onRedeemTrigger(redeem: Redeem?) {
+//                Log.d(
+//                    MainActivity::class.java.simpleName,
+//                    "here is package Id  ${redeem?.packageId} ----- ${redeem?.pointsToRedeem}"
+//                )
+//                GamiBot.getInstance()
+//                    .markRedeemDone(redeem?.packageId!!, redeem.pointsToRedeem!!)
+//            }
+//        })
 
         button.setOnClickListener {
             // this is how to pass data object
@@ -70,5 +74,13 @@ class MainActivity : AppCompatActivity() {
 //                .markTaskDoneSdk("purchaseCourseEvent","riyadyhia@gmail.com",)
             GamiBot.getInstance().open(this, null, "es")
         }
+
+        btn_new.setOnClickListener {
+            startActivity(NewActivity.newIntent(this))
+        }
+    }
+
+    companion object {
+        fun newIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
 }
