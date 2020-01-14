@@ -18,6 +18,7 @@ import com.gamiphy.library.GamiphyWebViewActions
 import com.gamiphy.library.R
 import com.gamiphy.library.network.models.responses.Action
 import com.gamiphy.library.network.models.responses.ActionData
+import com.gamiphy.library.network.models.responses.ShareData
 import com.gamiphy.library.network.models.responses.redeem.Redeem
 import com.gamiphy.library.utils.GamiphyConstants
 import com.gamiphy.library.utils.GamiphyData
@@ -191,17 +192,41 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
             Log.d(GamiphyWebViewActivity::class.java.simpleName, "=====<>>>>$event")
             val actionType = object : TypeToken<Action<ActionData>>() {}.type
             val action = Gson().fromJson<Action<ActionData>>(event, actionType)
-            if (action.type == "actionTrigger") {
-                gamiBot.notifyTaskTrigger(action.data.actionName)
-            } else if (action.type == "redeemTrigger") {
-                val redeemType = object : TypeToken<Action<Redeem>>() {}.type
-                val redeem = Gson().fromJson<Action<Redeem>>(event, redeemType)
-                gamiBot.notifyRedeemTrigger(redeem.data)
+
+            when {
+                action.type == ACTION_TRIGGER -> gamiBot.notifyTaskTrigger(action.data.actionName)
+
+                action.type == REDEEM_TRIGGER -> {
+                    val redeemType = object : TypeToken<Action<Redeem>>() {}.type
+                    val redeem = Gson().fromJson<Action<Redeem>>(event, redeemType)
+                    gamiBot.notifyRedeemTrigger(redeem.data)
+                }
+
+                action.type == SHARE -> {
+                    val shareDataType = object : TypeToken<Action<ShareData>>() {}.type
+                    val shareData = Gson().fromJson<Action<ShareData>>(event, shareDataType)
+                    share(shareData.data.text, shareData.data.link)
+                }
             }
         }
     }
 
+    private fun share(text: String?, link: String?) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "$text \n $link")
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+
     companion object {
+        private const val ACTION_TRIGGER = "actionTrigger"
+        private const val REDEEM_TRIGGER = "redeemTrigger"
+        private const val SHARE = "share"
+
         @JvmStatic
         fun newIntent(context: Context) =
             Intent(context, GamiphyWebViewActivity::class.java).apply {

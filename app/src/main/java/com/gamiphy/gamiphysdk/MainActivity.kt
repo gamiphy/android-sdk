@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             // if there is no data
 //            GamiBot.getInstance()
 //                .markTaskDoneSdk("purchaseCourseEvent","riyadyhia@gmail.com",)
-            GamiBot.getInstance().open(this, null, "es")
+            GamiBot.getInstance().open(this, null, "en")
         }
 
         btn_new.setOnClickListener {
