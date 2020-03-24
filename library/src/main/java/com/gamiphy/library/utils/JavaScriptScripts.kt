@@ -7,11 +7,11 @@ object JavaScriptScripts {
 
     fun initBot(user: User? = null, language: String? = "en") = user?.let {
         val userJson = Gson().toJson(user).toString()
-        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: $userJson, language: '$language'}},'*')"
-    } ?: let { "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize',data:{logout: true, language: '$language'}},'*')" }
+        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: $userJson, language: '$language', parentWindow:{type: 'Android'}}},'*')"
+    } ?: let { "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize',data:{logout: true, language: '$language', parentWindow:{type: 'Android'}}},'*')" }
 
     fun initBot(token: String, language: String? = "en") =
-        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: '$token', language: '$language'}},'*')"
+        "javascript: window.postMessage({origin: 'Gamiphy', type: 'initialize', data: {user: '$token', language: '$language', parentWindow:{type: 'Android'}}},'*')"
 
     fun addGamiphyEvent() =
         "javascript: " +
