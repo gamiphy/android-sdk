@@ -74,6 +74,9 @@ class GamiBotImpl : GamiBot {
                     response: Response<RedeemResponse>
                 ) {
                     Log.d(GamiBotImpl::class.java.name, "success")
+                    gamiphyWebViewActionsList.forEach {
+                        it.refresh()
+                    }
                 }
             })
         }
