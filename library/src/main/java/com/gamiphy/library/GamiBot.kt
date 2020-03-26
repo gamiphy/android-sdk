@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.annotation.RestrictTo
 import com.gamiphy.library.models.User
 import com.gamiphy.library.network.models.responses.redeem.Redeem
-import com.gamiphy.library.network.models.responses.redeem.Reward
-import org.intellij.lang.annotations.Language
 
 interface GamiBot {
     fun init(context: Context, botId: String, language: String? = "en"): GamiBot

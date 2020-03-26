@@ -10,7 +10,8 @@ class DemoApplication() : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        GamiBot.getInstance().init(applicationContext, "5dc9335e5d2ed200121fc720", "es").setDebug(true)
+        val botId="5e550cb17686f0001299e853"
+        GamiBot.getInstance().init(this,botId,"en").setDebug(true)
 
         GamiBot.getInstance().registerGamiphyOnRedeemTrigger(object : OnRedeemTrigger {
             override fun onRedeemTrigger(redeem: Redeem?) {

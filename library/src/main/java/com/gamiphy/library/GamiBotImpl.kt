@@ -12,7 +12,6 @@ import com.gamiphy.library.network.models.TrackEventResponse
 import com.gamiphy.library.network.models.responses.RedeemRequest
 import com.gamiphy.library.network.models.responses.RedeemResponse
 import com.gamiphy.library.network.models.responses.redeem.Redeem
-import com.gamiphy.library.network.models.responses.redeem.Reward
 import com.gamiphy.library.ui.GamiphyWebViewActivity
 import com.gamiphy.library.utils.GamiphyData
 import retrofit2.Call

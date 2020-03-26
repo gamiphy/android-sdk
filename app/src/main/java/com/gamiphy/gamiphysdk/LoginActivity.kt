@@ -1,6 +1,7 @@
 package com.gamiphy.gamiphysdk
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.gamiphy.library.GamiBot
 import com.gamiphy.library.models.User
@@ -15,13 +16,14 @@ class LoginActivity : AppCompatActivity() {
 
         GamiBot.getInstance().login(
             User(
-                "riyadyhia@gmail.com", "Riyad Yahya",
+                "abdallah@gamiphy.co", "abdallah AbuSalah",
                 HashUtil.createHmacKey(
-                    "riyadyhia@gmail.com|Riyad Yahya",
-                    "e71f524cee7995766626bd40350d883d14ded66dc095a3b89fb71b89faa751ce"
+                    "abdallah@gamiphy.co|abdallah AbuSalah",
+                    "94c711455c8fabb3c3ffacace7711eda10be9d1147afa140872af60b026ebfca"
                 )
             )
         )
+        GamiBot.getInstance().open(this)
         finish()
     }
 }
