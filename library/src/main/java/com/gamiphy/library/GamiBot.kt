@@ -4,13 +4,14 @@ import android.content.Context
 import androidx.annotation.RestrictTo
 import com.gamiphy.library.models.User
 import com.gamiphy.library.network.models.responses.redeem.Redeem
+import com.gamiphy.library.utils.GamiphyData
 
 interface GamiBot {
     fun init(context: Context, botId: String, language: String? = "en"): GamiBot
     fun setBotId(botId: String): GamiBot
     fun setDebug(debug: Boolean)
 
-    fun open(context: Context, user: User? = null, language: String? = "en")
+    fun open(context: Context, user: User? = null, language: String? = null)
     fun close()
 
     fun login(user: User)

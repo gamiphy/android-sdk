@@ -45,7 +45,9 @@ class GamiBotImpl : GamiBot {
             TOKEN_PREF,
             Context.MODE_PRIVATE
         ).getString(TOKEN_PREF_ID, null)
-        gamiphyData.language = language
+        if (language != null) {
+            gamiphyData.language = language
+        }
         context.startActivity(GamiphyWebViewActivity.newIntent(context))
     }
 
