@@ -58,6 +58,10 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
         postTokenMessage()
     }
 
+    override fun onBackPressed() {
+        moveTaskToBack(true);
+    }
+
     override fun close() {
         finish()
     }

@@ -1,10 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.gamiphy.library">
+    package="com.gamiphy.library">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
     <application>
-        <activity android:name=".ui.GamiphyWebViewActivity"/>
+        <activity
+            android:name=".ui.GamiphyWebViewActivity"
+            android:launchMode="singleInstance" />
 
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
