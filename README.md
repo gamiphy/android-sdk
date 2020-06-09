@@ -60,7 +60,7 @@ Gamiphy Loyalty & Rewards can be triggered and shown in two methods.
         android:layout_height="70dp" />
 ```
 
-- If you are interested in having your own widget/button that will be repsonsible to open the system, or you want to open the widget after a certin action. you can do so by calling the following method: 
+- If you are interested in having your own widget/button that will be repsonsible to open the system, or you want to open the widget after a certin action. You can do so by calling the following method: 
 
 ```Kotlin
     GamiphySDK.getInstance().open(context,user,language)
@@ -82,7 +82,7 @@ GamiphySDK.getInstance().registerGamiphyOnAuthTrigger(object : OnAuthTrigger {
         }
         )
 ```
-OnAuthTrigger method called when click signUp/login in the bot. isSignUp true for signup redirection, isSignUp false for login redirection.
+OnAuthTrigger method called when click signUp/login in the widget. isSignUp true for signup redirection, isSignUp false for login redirection.
 
 In login activity, after the user logged in, set user name and email and start gamiphy view
 ```kotlin
@@ -100,7 +100,7 @@ Gamiphy SDK Listeners:
         })
 ```
 
-- OnAuthTrigger: this listener has OnAuthTrigger method, this method called when the bot requires login/signup for the user or the login button inside bot clicked.
+- OnAuthTrigger: this listener has OnAuthTrigger method, this method is called when the widget requires login/signup for the user or the login button inside the widget is clicked.
  isSignUp true for signup redirection, isSignUp false for login redirection.
 ```kotlin
 GamiBot.getInstance().registerGamiphyOnAuthTrigger(object : OnAuthTrigger {
@@ -114,7 +114,7 @@ GamiBot.getInstance().registerGamiphyOnAuthTrigger(object : OnAuthTrigger {
         )
 ```
 
-- OnRedeemTrigger: this listener has onRedeemTrigger method, this method Called when redeem clicked in the bot. 
+- OnRedeemTrigger: this listener has onRedeemTrigger method, this method is called when the redeem button is clicked in the widget. 
 redeem is the redeem object want to redeem which contains packageId and pointsToRedeem
 ```kotlin
  gamiBot.registerGamiphyOnRedeemTrigger(object : OnRedeemTrigger {
@@ -145,9 +145,9 @@ This method take the event name label and mark it as done.
 ```kotlin
 GamiBot.getInstance().markTaskDone(actionName)
 ```
-note: you can use this methode with bot only, bot should be on when you use it.
+note: you can use this method with the widget only, the widget should be on when you use it.
 
-If you need to send the custom event action in general -ignoring bot status - with data object, you need to create new class according data object -class fields names should have same data fields names-.
+If you need to send the custom event action in general -ignoring widget status - with data object, you need to create new class according data object -class fields names should have same data fields names-.
 note: data object is optinoal and depends on your case.
 ```kotlin
 GamiBot.getInstance().markTaskDoneSdk("purchaseCourseEvent",email)
@@ -243,7 +243,7 @@ On our side, we will add the referrer to the deepLink query parameter. So, to re
              }  
           .addOnFailureListener(this) { e -> Log.w(TAG, "getDynamicLink:onFailure", e) }
 ```
-### Add parameter to the bot URL
+### Add parameter to the widget URL
 ---
 Add ShareUrl and referrer ID to Gamiphy’s app url as query string
 ```kotlin
