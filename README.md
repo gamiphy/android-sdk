@@ -2,10 +2,11 @@
 
 [Gamiphy SDK Jitpack Link](https://jitpack.io/#gamiphy/android-sdk)
 
-## Inroduction 
+## Introduction 
 
-Gamibot, is the loyality program that provide gamified user journey, with rewarding system, where users can get points by doing certine actions. and they 
-can be rewarded for doing these actions. 
+Gamiphy Loyalty & Rewards, is a gamified loyalty program plugin/widget for eCommerce. You will be able to reward users with points for completing pre defined "challenges" within your store. In addition to that users can compete with each other in compeitions reflected on a leaderboard, receive badges and invite their freinds, among other gamified features.
+
+
 
 ## Requirements
 
@@ -15,7 +16,7 @@ can be rewarded for doing these actions.
 
 ## Installation
 
-gamiphy is available through [JitPack](https://jitpack.io/#gamiphy/android-sdk). To install
+Gamiphy Loyalty & Rewards is available through [JitPack](https://jitpack.io/#gamiphy/android-sdk). To install
 it, simply add the dependency for the Gamiphy SDK in your module (app-level) Gradle file (usually app/build.gradle):
 
 ```gradle
@@ -37,7 +38,7 @@ and make sure you have jitpack in your root-level (project-level) Gradle file (b
 ## Getting started
 
 Gamiphy SDK needs to be initialized in Application class, you can do that by calling the init methid as shown below, and pass some required data / parameters that 
-you can get after you signup for an account at Gamiphy. kinldy note the initilize method below. 
+you can get after you signup for an account at Gamiphy. Kindly note the initilize method below. 
 
 ```kotlin
       GamiBot.getInstance().init(applicationContext, botId, language).setDebug(true)
@@ -47,12 +48,11 @@ And you can set Debug mode.
       GamiBot.getInstance().init(applicationContext, botId, language).setDebug(true).setDebug(true)
 ```
 
-## Showing the bot within your application
+## Showing the plugin within your application
 
-Gamibot can be triggered and shown in two methods. 
+Gamiphy Loyalty & Rewards can be triggered and shown in two methods. 
 
-- If you are interested to use the widget that Gamiphy SDK provides, this widget will handle opening the bot within the web view.
-you just need to add the widget button to your xml layout
+- Simply add the widget button to your xml layout
 
 ```xml  
         <com.gamiphy.library.utils.GamiphyBotButton
@@ -60,19 +60,19 @@ you just need to add the widget button to your xml layout
         android:layout_height="70dp" />
 ```
 
-- If you are interested on having your own widget/button that will be repsonsible to open the bot, or you want to open the bot after a certin action. you can do so by calling the following method: 
+- If you are interested in having your own widget/button that will be repsonsible to open the system, or you want to open the widget after a certin action. you can do so by calling the following method: 
 
 ```Kotlin
     GamiphySDK.getInstance().open(context,user,language)
 ```
 note: user and language are optional parameters in case we passed them in login
 
-## Bot visitor flow 
+## Widget visitor flow 
 
-Gamibot support the ability for the end users to navigate the different features available, without even being logged in. but whenever 
-the users trying to perform the tasks / actions so they can get the points, Gamibot will encourage them to either login or signup to the application. 
+Gamiphy Loyalty & Rewards support the ability for the end users to navigate the different features available, without even being logged in. But whenever 
+the users trying to perform actions they will be redirected to either login or signup to the application. 
 
-You need to specify the Activity where the users can login / register in your application. you should implement OnAuthTrigger by doing as the following: 
+You need to specify the Activity where the users can login / register in your application. You should implement OnAuthTrigger by doing as the following: 
 
 ```Kotlin
 GamiphySDK.getInstance().registerGamiphyOnAuthTrigger(object : OnAuthTrigger {
@@ -127,7 +127,7 @@ redeem is the redeem object want to redeem which contains packageId and pointsTo
 
 ## Registering the users
 
-As Gamibot is a loyality program that should be able to give points for the users, you can simply register your users for our SDK by calling this method. 
+You can simply register your users for our SDK by calling this method. 
 
 ```kotlin
    GamiBot.getInstance().loginSDK(context, User(email,name,hash))
@@ -136,7 +136,7 @@ As Gamibot is a loyality program that should be able to give points for the user
 you need to call this method in both cases the login / signup if you do instant login of your users after they login/signup. 
 
 
-## Creating the tasks: 
+## Creating the challenges: 
 
 
 You need to send the custom event actions whenever its done using the method markTaskDone shown below.
