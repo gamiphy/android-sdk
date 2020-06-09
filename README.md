@@ -168,28 +168,40 @@ to mark redeem, we have markRedeemDone method with packageId and pointsToRedeem 
 ```kotlin
 GamiBot.getInstance().markRedeemDone(redeem?.packageId!!, redeem.pointsToRedeem!!)
 ```
-Referral Tracking
-Integrate your app with Firebase Dynamic Links
-Gamiphy Loyalty app uses firebase dynamic links for deep linking. This is why you must integrate Firebase in your project. Please follow the Docs to integrate with Firebase.​Note: You must add SHA-1 and SHA-256 signing keys to enable Firebase dynamic links.
 
-Init localization strings
-Firebase requires two keys to be integrated with any app: uri_prefix: To set this value, open Firebase Console. Then go to the Dynamic Links section and add a new uri_prefix. website_uri: This is a url to the web home page.
+## Referral Tracking ##
 
-Add both values to res/values/strings.xml as follows.
+### Integrate your app with Firebase Dynamic Links
+---
+Gamiphy Loyalty app uses firebase dynamic links for deep linking. This is why you must integrate Firebase in your project. 
+Please follow the [Docs](https://firebase.google.com/docs/android/setup) to integrate with Firebase. 
+​
+**Note**: You must add **SHA-1** and **SHA-256** signing keys to enable Firebase dynamic links.
+### Init localization strings
+---
+Firebase requires two keys to be integrated with any app:
+**uri_prefix**: To set this value, open [Firebase Console](https://console.firebase.google.com/u/0/). Then go to the **Dynamic Links** section and add a new uri_prefix.
+**website_uri**: This is a url to the web home page.
 
+Add both values to `res/values/strings.xml` as follows.
+```xml
 <string name="uri_prefix">{{uri_prefix}}</string>
 <string name="website_uri">{{website_url}}</string>
-Set up Firebase Dynamic Links SDK
-After making sure that your app connected to your Firebase project, add the dependency for the Firebase Dynamic Links Android library to your module (build.gradle):
-
+```
+### Set up Firebase Dynamic Links SDK
+---
+After making sure that your app connected to your Firebase project, add the dependency for the Firebase Dynamic Links Android library to your module  (`build.gradle`):  
+```gradle
 dependencies {  
   ...
   implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'    
   implementation 'com.google.firebase:firebase-analytics:17.2.3'  
 }
-Create a Dynamic Link
+```
+### Create a Dynamic Link
+---
 Now you can use the following code to create a dynamic link:
-
+```kotlin
 dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()  
     .setLink(Uri.parse(getString(R.string.website_uri)))  
         .setDomainUriPrefix(getString(R.string.url_prefix))  
@@ -198,10 +210,15 @@ dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
         // Open links with com.example.ios on iOS 
         .setIosParameters(DynamicLink.IosParameters.Builder("com.example.ios").build())  
         .buildDynamicLink()  
-
+  
 val dynamicLinkUri = dynamicLink.uri
-Receive Firebase Dynamic Links parameter
-Add intent filter To handle the dynamic links you should add a new intent filter to the activity that handles deep links in your app. The intent filter will catch deep links to your domain. Use the following code to add the intent filter in AndroidManifest.xml
+```
+### Receive Firebase Dynamic Links parameter
+---
+* **Add intent filter**
+To handle the dynamic links you should add a new intent filter to the activity that handles deep links in your app. The intent filter will catch deep links to your domain. 
+Use the following code to add the intent filter in `AndroidManifest.xml`
+```xml
     <intent-filter>  
      <action android:name="android.intent.action.VIEW" />  
      <category android:name="android.intent.category.DEFAULT" />  
@@ -210,7 +227,10 @@ Add intent filter To handle the dynamic links you should add a new intent filter
         android:host="url_prefix"  
         android:scheme="https"/>
     </intent-filter>
-Parse the referrer id On our side, we will add the referrer to the deepLink query parameter. So, to receive the deep link, call the getDynamicLink() method:
+```
+* **Parse the referrer id**
+On our side, we will add the referrer to the deepLink query parameter. So, to receive the deep link, call the `getDynamicLink()` method:
+```kotlin
      Firebase.dynamicLinks  
          .getDynamicLink(intent)  
          .addOnSuccessListener(this) { pendingDynamicLinkData ->  
@@ -222,3 +242,22 @@ Parse the referrer id On our side, we will add the referrer to the deepLink quer
                }  
              }  
           .addOnFailureListener(this) { e -> Log.w(TAG, "getDynamicLink:onFailure", e) }
+```
+### Add parameter to the bot URL
+---
+Add ShareUrl and referrer ID to Gamiphy’s app url as query string
+```kotlin
+var builder: Uri.Builder = Uri.Builder().scheme("https")  
+    .authority(getString(R.id.gamiphy_bot_url))  
+    .appendQueryParameter("referrerId", referrerId)  
+    .appendQueryParameter("shareUrl", dynamicLink)  
+  
+var botUrl: Uri? = builder.build()
+```
+### Open Gamiphy App
+---
+Insert these few lines in your onClickListener to open the  app in your mobile browser.
+```kotlin 
+val intent = Intent(Intent.ACTION_VIEW, botUrl)  
+startActivity(intent)
+```
