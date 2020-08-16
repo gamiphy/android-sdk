@@ -15,27 +15,21 @@ object HashUtil {
      * @returns HMAC
      */
     fun createHmacKey(data: String, key: String): String {
-        var digest = ""
-        try {
-            val hmacKey = SecretKeySpec((key).toByteArray(Charsets.UTF_8), HMAC_SHA_256)
-            val mac = Mac.getInstance(HMAC_SHA_256)
-            mac.init(hmacKey)
+        val hmacKey = SecretKeySpec((key).toByteArray(Charsets.UTF_8), HMAC_SHA_256)
+        val mac = Mac.getInstance(HMAC_SHA_256)
+        mac.init(hmacKey)
 
-            val bytes = mac.doFinal(data.toByteArray(Charsets.UTF_8))
-            bytes.toString()
+        val bytes = mac.doFinal(data.toByteArray(Charsets.UTF_8))
+        bytes.toString()
 
-            val hash = StringBuffer()
-            bytes.forEach { byte ->
-                val hex: String = Integer.toHexString(0xFF and byte.toInt())
-                if (hex.length == 1) {
-                    hash.append('0')
-                }
-                hash.append(hex)
+        val hash = StringBuffer()
+        bytes.forEach { byte ->
+            val hex: String = Integer.toHexString(0xFF and byte.toInt())
+            if (hex.length == 1) {
+                hash.append('0')
             }
-            digest = hash.toString()
-        } catch (e: Exception) {
-            Log.e(HashUtil::class.java.simpleName, e.message, e)
+            hash.append(hex)
         }
-        return digest
+        return hash.toString()
     }
 }
