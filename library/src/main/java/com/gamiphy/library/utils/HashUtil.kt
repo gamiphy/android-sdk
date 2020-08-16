@@ -21,7 +21,7 @@ object HashUtil {
             val mac = Mac.getInstance(HMAC_SHA_256)
             mac.init(hmacKey)
 
-            val bytes = mac.doFinal(data.toByteArray(Charsets.US_ASCII))
+            val bytes = mac.doFinal(data.toByteArray(Charsets.UTF_8))
             bytes.toString()
 
             val hash = StringBuffer()
